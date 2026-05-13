@@ -1,0 +1,10 @@
+Hello! My name is {name} and I'm excited to chat with you today.
+Hi there, I'm a software engineer from Seattle named {name}. I love building things.
+Good morning! I'm {name}, a 28-year-old graduate student studying neuroscience.
+Hey, {name} here. I've been working as a nurse for about ten years now.
+I'm a retired teacher who lives in Denver. My friends call me {name}.
+Nice to meet you! {name} is my name. I enjoy hiking and photography in my free time.
+My parents named me {name} after my grandfather. I'm 42 and work in finance.
+I go by {name}. I recently moved to Chicago and I'm looking for restaurant recommendations.
+As a musician and songwriter from London, I'm {name} and I'm 35 years old.
+People usually just call me {name}. I'm a college freshman majoring in computer science.
