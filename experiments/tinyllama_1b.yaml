@@ -1,8 +1,5 @@
-# configs/models/tinyllama_1b.yaml
-
 model_id: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-prompts_file: "data/prompts.txt"
-names_file: "data/names.txt"
+prompts_file: "data/prompts_intro.txt"
+names_file: "data/names_eng.txt"
 output_dir: "outputs/tinyllama_1b"
-dtype: "float32"    # no GPU, run on CPU
-device: "cpu"
+dtype: "float32"  

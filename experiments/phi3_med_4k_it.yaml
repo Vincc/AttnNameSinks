@@ -1,0 +1,5 @@
+model_id: "microsoft/Phi-3-medium-4k-instruct"
+prompts_file: "data/prompts_intro.txt"
+names_file: "data/names_eng.txt"
+output_dir: "outputs/phi3_med_4k_it"
+dtype: "float32"
