@@ -1,8 +1,8 @@
-# TinyLlama 1.1B chat - cheap smoke test, runs on CPU
-model_id: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+# Phi-3 mini 3.8B instruct - ~8GB in bf16
+model_id: "microsoft/Phi-3-mini-4k-instruct"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/tinyllama_1b"
+output_dir: "outputs/phi3_mini_4k_it"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: true

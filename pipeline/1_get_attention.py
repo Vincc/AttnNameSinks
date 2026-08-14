@@ -1,38 +1,61 @@
 """
-Given a model, cache activations on name dataaset
+Given a model, cache attention sink scores over the name dataset.
 
 Usage:
-    python pipeline/1_get_attention.py --config configs/models/tinyllama_1b.yaml
+    python pipeline/1_get_attention.py --config phi3_med_4k_it
+    python pipeline/1_get_attention.py --config experiments/qwen25_7b.yaml --max-names 5
 """
 
 import argparse
-import os
-from pathlib import Path
+import json
+
 from attentions.activations import AttentionExtractor
-from attentions.models import load_config, load_model
-PROJECT_ROOT = Path(__file__).parent.parent
+from attentions.models import PROJECT_ROOT, load_config, load_model
+
+
+def read_lines(path):
+    with open(PROJECT_ROOT / path, encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip()]
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", required=True, help="Path to experiment config YAML")
+    parser.add_argument("--config", required=True, help="Config name or path to YAML")
+    parser.add_argument("--max-names", type=int, default=None,
+                        help="Only run the first N names")
+    parser.add_argument("--raw-names", type=int, default=1,
+                        help="Keep full attention for the first N names, for heatmaps")
+    parser.add_argument("--no-resume", action="store_true",
+                        help="Recompute names that already have an output file")
     args = parser.parse_args()
+
     config = load_config(args.config)
     out_dir = PROJECT_ROOT / config["output_dir"]
-    os.makedirs(out_dir, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"Loading model: {config['model_id']}")
+    prompts = read_lines(config["prompts_file"])
+    names = read_lines(config["names_file"])
+    if args.max_names:
+        names = names[:args.max_names]
+
     model, tokenizer = load_model(config)
+    extractor = AttentionExtractor(model, tokenizer,
+                                   use_chat_template=config.get("chat_template", True))
+    if not extractor.use_chat_template:
+        print("No chat template (base model) - feeding raw prompts")
 
-    with open(config["prompts_file"]) as f:
-        prompts = [line.strip() for line in f if line.strip()]
-    with open(config["names_file"]) as f:
-        names = [line.strip() for line in f if line.strip()]
+    with open(out_dir / "metadata.json", "w") as f:
+        json.dump({
+            "model_id": config["model_id"],
+            "use_chat_template": extractor.use_chat_template,
+            "prompts": prompts,
+            "names": names,
+        }, f, indent=2)
 
-    print(f"Extracting attentions for {len(prompts)} prompts...")
-    extractor = AttentionExtractor(model, tokenizer)
-    results = extractor.compute_all_attention(prompts, names, out_dir) #computes and saves activations
-    #print(results)
+    print(f"{len(names)} names x {len(prompts)} prompts = {len(names) * len(prompts)} forward passes")
+    extractor.compute_all_attention(prompts, names, out_dir,
+                                    raw_names=args.raw_names, resume=not args.no_resume)
+
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,8 @@
+# Phi-3 medium 14B instruct - ~28GB in bf16, needs A100-40G / L40S-48G
 model_id: "microsoft/Phi-3-medium-4k-instruct"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
 output_dir: "outputs/phi3_med_4k_it"
-dtype: "float32"
+dtype: "auto"            # bfloat16 on GPU, float32 on CPU
+device: "auto"           # cuda if available, else cpu
+chat_template: true

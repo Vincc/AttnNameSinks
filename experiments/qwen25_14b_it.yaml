@@ -1,8 +1,8 @@
-# TinyLlama 1.1B chat - cheap smoke test, runs on CPU
-model_id: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+# Qwen2.5 14B INSTRUCT - scale ladder rung. Pairs with qwen25_14b
+model_id: "Qwen/Qwen2.5-14B-Instruct"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/tinyllama_1b"
+output_dir: "outputs/qwen25_14b_it"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: true
