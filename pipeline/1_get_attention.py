@@ -3,7 +3,7 @@ Given a model, cache attention sink scores over the name dataset.
 
 Usage:
     python pipeline/1_get_attention.py --context prompts_intro --config phi3_med_4k_it
-    python pipeline/1_get_attention.py --context prompts_intro_long --config qwen25_7b --max-names 5
+    python pipeline/1_get_attention.py --context prompts_intro_long --config qwen25_7b
 """
 
 import argparse
@@ -23,8 +23,6 @@ def main():
     parser.add_argument("--context", required=True,
                         help="Prompt set / config directory under experiments/")
     parser.add_argument("--config", required=True, help="Config name within the context")
-    parser.add_argument("--max-names", type=int, default=None,
-                        help="Only run the first N names")
     parser.add_argument("--no-resume", action="store_true",
                         help="Recompute names that already have an output file")
     args = parser.parse_args()
@@ -35,8 +33,6 @@ def main():
 
     prompts = read_lines(config["prompts_file"])
     names = read_lines(config["names_file"])
-    if args.max_names:
-        names = names[:args.max_names]
 
     model, tokenizer = load_model(config)
     extractor = AttentionExtractor(model, tokenizer,
