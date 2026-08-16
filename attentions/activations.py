@@ -73,10 +73,10 @@ class AttentionExtractor:
             outputs = self.model(**inputs, output_attentions=True)
 
         tokens = [self.tokenizer.decode(t) for t in token_ids]
-    
+
         return outputs.attentions, tokens
 
-    def compute_all_attention(self, prompts, names, out_dir, raw_names=1, resume=True):
+    def compute_all_attention(self, prompts, names, out_dir, resume=True):
         """Run every (name, prompt) pair, writing one .pt file per name.
 
         Only the reduced sink scores are kept.
@@ -85,7 +85,7 @@ class AttentionExtractor:
         150 you keep the first 149, and `resume` skips them next launch.
         """
 
-        for i, name in enumerate(tqdm(names, desc="names")):
+        for name in tqdm(names, desc="names"):
             path = f"{out_dir}/{name}.pt"
             if resume and os.path.exists(path):
                 continue
@@ -100,7 +100,6 @@ class AttentionExtractor:
                     # (layers, heads, T), T times smaller than the raw attention
                     "alpha": sink_scores(attentions).half().cpu(),
                 })
-                
                 del attentions
 
             torch.save({"name": name, "results": results}, path)

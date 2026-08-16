@@ -1,0 +1,8 @@
+# Phi-3 mini 3.8B instruct - ~8GB in bf16
+model_id: "microsoft/Phi-3-mini-4k-instruct"
+prompts_file: "data/prompts_intro_long.txt"
+names_file: "data/names_eng.txt"
+output_dir: "outputs/prompts_intro_long/phi3_mini_4k_it"
+dtype: "auto"            # bfloat16 on GPU, float32 on CPU
+device: "auto"           # cuda if available, else cpu
+chat_template: true

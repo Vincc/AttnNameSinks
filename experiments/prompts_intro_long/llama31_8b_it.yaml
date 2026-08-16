@@ -1,8 +1,8 @@
 # Llama 3.1 8B INSTRUCT - gated repo, needs HF_TOKEN. Pairs with llama31_8b
 model_id: "meta-llama/Llama-3.1-8B-Instruct"
-prompts_file: "data/prompts_intro.txt"
+prompts_file: "data/prompts_intro_long.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/llama31_8b_it"
+output_dir: "outputs/prompts_intro_long/llama31_8b_it"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: true

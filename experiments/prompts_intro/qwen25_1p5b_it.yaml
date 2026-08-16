@@ -1,0 +1,8 @@
+# Qwen2.5 1.5B INSTRUCT - scale ladder rung. Pairs with qwen25_1p5b
+model_id: "Qwen/Qwen2.5-1.5B-Instruct"
+prompts_file: "data/prompts_intro.txt"
+names_file: "data/names_eng.txt"
+output_dir: "outputs/prompts_intro/qwen25_1p5b_it"
+dtype: "auto"            # bfloat16 on GPU, float32 on CPU
+device: "auto"           # cuda if available, else cpu
+chat_template: true

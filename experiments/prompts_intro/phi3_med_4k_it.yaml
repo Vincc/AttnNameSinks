@@ -1,8 +1,8 @@
-# Qwen2.5 0.5B INSTRUCT - scale ladder rung. Pairs with qwen25_0p5b
-model_id: "Qwen/Qwen2.5-0.5B-Instruct"
+# Phi-3 medium 14B instruct - ~28GB in bf16, needs A100-40G / L40S-48G
+model_id: "microsoft/Phi-3-medium-4k-instruct"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/qwen25_0p5b_it"
+output_dir: "outputs/prompts_intro/phi3_med_4k_it"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: true

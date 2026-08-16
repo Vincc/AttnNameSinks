@@ -1,8 +1,8 @@
-# Phi-3 mini 3.8B instruct - ~8GB in bf16
-model_id: "microsoft/Phi-3-mini-4k-instruct"
+# Qwen2.5 14B INSTRUCT - scale ladder rung. Pairs with qwen25_14b
+model_id: "Qwen/Qwen2.5-14B-Instruct"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/phi3_mini_4k_it"
+output_dir: "outputs/prompts_intro/qwen25_14b_it"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: true

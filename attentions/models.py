@@ -4,7 +4,7 @@ Model config loading and model instantiation.
 Usage:
     from attentions.models import load_config, load_model
 
-    config = load_config("phi3_med_4k_it")
+    config = load_config("phi3_med_4k_it", "prompts_intro")
     model, tokenizer = load_model(config)
 """
 
@@ -17,19 +17,27 @@ PROJECT_ROOT = Path(__file__).parent.parent
 CONFIGS_DIR = PROJECT_ROOT / "experiments"
 
 
-def load_config(model_name):
-    """
-        model_name: Either a short name like "tinyllama_1b" (looks up in experiments/)
-                    or a full path to a YAML file.
-    """
-    path = Path(model_name)
-    if not path.exists():
-        path = CONFIGS_DIR / f"{model_name}.yaml"
+def load_config(model_name, context):
+    """Load experiments/<context>/<model_name>.yaml.
 
+    Args:
+        model_name: Short name like "tinyllama_1b".
+        context: The prompt set the run belongs to, e.g. "prompts_intro". Every
+            context holds the same model names against a different prompts_file,
+            so the name alone does not identify a config and both are required.
+    """
+    context_dir = CONFIGS_DIR / context
+    if not context_dir.is_dir():
+        raise FileNotFoundError(
+            f"Context not found: {context}\n"
+            f"Available: {list_contexts()}"
+        )
+
+    path = context_dir / f"{model_name}.yaml"
     if not path.exists():
         raise FileNotFoundError(
-            f"Config not found: {model_name}\n"
-            f"Available: {list_models()}"
+            f"Config not found: {context}/{model_name}\n"
+            f"Available: {list_models(context)}"
         )
 
     with open(path) as f:
@@ -75,6 +83,11 @@ def load_model(config):
     return model, tokenizer
 
 
-def list_models():
-    """List available model config names."""
-    return sorted([p.stem for p in CONFIGS_DIR.glob("*.yaml")])
+def list_contexts():
+    """List available context names, i.e. the config directories."""
+    return sorted([p.name for p in CONFIGS_DIR.iterdir() if p.is_dir()])
+
+
+def list_models(context):
+    """List available model config names within a context."""
+    return sorted([p.stem for p in (CONFIGS_DIR / context).glob("*.yaml")])

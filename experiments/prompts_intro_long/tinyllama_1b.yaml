@@ -1,0 +1,8 @@
+# TinyLlama 1.1B chat - cheap smoke test, runs on CPU
+model_id: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+prompts_file: "data/prompts_intro_long.txt"
+names_file: "data/names_eng.txt"
+output_dir: "outputs/prompts_intro_long/tinyllama_1b"
+dtype: "auto"            # bfloat16 on GPU, float32 on CPU
+device: "auto"           # cuda if available, else cpu
+chat_template: true

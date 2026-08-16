@@ -2,8 +2,8 @@
 Given a model, cache attention sink scores over the name dataset.
 
 Usage:
-    python pipeline/1_get_attention.py --config phi3_med_4k_it
-    python pipeline/1_get_attention.py --config experiments/qwen25_7b.yaml --max-names 5
+    python pipeline/1_get_attention.py --context prompts_intro --config phi3_med_4k_it
+    python pipeline/1_get_attention.py --context prompts_intro_long --config qwen25_7b --max-names 5
 """
 
 import argparse
@@ -20,16 +20,16 @@ def read_lines(path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", required=True, help="Config name or path to YAML")
+    parser.add_argument("--context", required=True,
+                        help="Prompt set / config directory under experiments/")
+    parser.add_argument("--config", required=True, help="Config name within the context")
     parser.add_argument("--max-names", type=int, default=None,
                         help="Only run the first N names")
-    parser.add_argument("--raw-names", type=int, default=1,
-                        help="Keep full attention for the first N names, for heatmaps")
     parser.add_argument("--no-resume", action="store_true",
                         help="Recompute names that already have an output file")
     args = parser.parse_args()
 
-    config = load_config(args.config)
+    config = load_config(args.config, args.context)
     out_dir = PROJECT_ROOT / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -53,8 +53,7 @@ def main():
         }, f, indent=2)
 
     print(f"{len(names)} names x {len(prompts)} prompts = {len(names) * len(prompts)} forward passes")
-    extractor.compute_all_attention(prompts, names, out_dir,
-                                    raw_names=args.raw_names, resume=not args.no_resume)
+    extractor.compute_all_attention(prompts, names, out_dir, resume=not args.no_resume)
 
 
 if __name__ == "__main__":

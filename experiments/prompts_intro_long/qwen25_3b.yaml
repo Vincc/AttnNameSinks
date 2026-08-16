@@ -1,0 +1,8 @@
+# Qwen2.5 3B BASE - scale ladder rung. Pairs with qwen25_3b_it
+model_id: "Qwen/Qwen2.5-3B"
+prompts_file: "data/prompts_intro_long.txt"
+names_file: "data/names_eng.txt"
+output_dir: "outputs/prompts_intro_long/qwen25_3b"
+dtype: "auto"            # bfloat16 on GPU, float32 on CPU
+device: "auto"           # cuda if available, else cpu
+chat_template: false    # base model: feed the raw prompt, no chat wrapper

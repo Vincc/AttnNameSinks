@@ -1,8 +1,8 @@
-# Llama 3.1 8B BASE - gated repo, needs HF_TOKEN. Pairs with llama31_8b_it
-model_id: "meta-llama/Llama-3.1-8B"
+# Qwen2.5 1.5B BASE - scale ladder rung. Pairs with qwen25_1p5b_it
+model_id: "Qwen/Qwen2.5-1.5B"
 prompts_file: "data/prompts_intro.txt"
 names_file: "data/names_eng.txt"
-output_dir: "outputs/llama31_8b"
+output_dir: "outputs/prompts_intro/qwen25_1p5b"
 dtype: "auto"            # bfloat16 on GPU, float32 on CPU
 device: "auto"           # cuda if available, else cpu
 chat_template: false    # base model: feed the raw prompt, no chat wrapper
